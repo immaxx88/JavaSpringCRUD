@@ -24,7 +24,7 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
-	@Autowired
+//	@Autowired
 	
 	//Create Employee
 	@PostMapping("/employees")
@@ -34,7 +34,6 @@ public class EmployeeController {
 	}
 	
 	//Get Employee
-	
 	  @GetMapping("/employees") 
 	  public List<Employee> getAllEmployee()
 	  { 
@@ -43,36 +42,37 @@ public class EmployeeController {
 	  }
 	  
 	  //Get Employee By ID
+	  @GetMapping("employees/{id}") 
+	  public ResponseEntity<Employee> getEmployeeByID(@PathVariable(value="id") Long empid) 
+	  { 
+	  Employee emp = employeeService.getEmployeeByID1(empid);
+	  if(emp == null) 
+	  { 
+	  return ResponseEntity.notFound().build(); 
+	  }
 	  
-//	  @GetMapping("employees/{id}") 
-//	  public ResponseEntity<Employee>
-//	  getEmployeeByID(@PathVariable(value="id") Long empid) { Employee emp =
-//	  employeeDAO.findOne(empid); if(emp == null) { return
-//	  ResponseEntity.notFound().build(); }
-//	  
-//	  return ResponseEntity.ok().body(emp); }
-//	  
-//	  //update an employee by empid
-//	  
-//	  @PutMapping("/employees/{id}") public ResponseEntity<Employee>
-//	  updateEmployee(@PathVariable(value="id") Long empid,@Valid @RequestBody
-//	  Employee empDetails){
-//	  
-//	  Employee emp = employeeDAO.findOne(empid); if(emp == null) { return
-//	  ResponseEntity.notFound().build(); }
-//	  
-//	  emp.setName(empDetails.getName());
-//	  emp.setDesignation(empDetails.getDesignation());
-//	  emp.setExpertise(empDetails.getExpertise()); Employee updateEmployee =
-//	  employeeDAO.save(emp);
-//	  
-//	  return ResponseEntity.ok().body(updateEmployee); }
-//	  
-//	  @DeleteMapping("/employees/{id}") public ResponseEntity<Employee>
-//	  deleteEmployee(@PathVariable(value="id") Long empid){ Employee emp =
-//	  employeeDAO.findOne(empid); if(emp==null) { return
-//	  ResponseEntity.notFound().build(); } employeeDAO.delete(emp);
-//	  
-//	  return ResponseEntity.ok().build(); }
+	  return ResponseEntity.ok().body(emp); 
+	  }
+	  
+	  //update an employee by empid
+	  
+	  @PutMapping("/employees/{id}") 
+	  public ResponseEntity<Employee> updateEmployee(@PathVariable(value="id") Long empid,@Valid @RequestBody Employee empDetails)
+	  {
+	  Employee updatedEmployee = employeeService.updateEmployee1(empid,empDetails); 
+	  
+	  
+	  return ResponseEntity.ok().body(updatedEmployee); 
+	  }
+	  
+	  @DeleteMapping("/employees/{id}") 
+	  public void deleteEmployee(@PathVariable(value="id") Long empid)
+	  { 
+	  //Employee emp = 
+		 employeeService.deleteEmployee1(empid);	   
+	  
+	  
+	  //return ResponseEntity.ok().build(); 
+	  }
 	 
 }
